@@ -23,7 +23,7 @@ This is not a simple chatbot. It is a guided educational system with clinician-v
 | Backend | Node.js + Express |
 | Frontend | HTML/CSS/JS (split-screen) |
 | Avatar | D-ID Streaming API (WebRTC) |
-| Voice | Microsoft Neural TTS (hu-HU-NoemiNeural) |
+| Voice | Microsoft Neural TTS (hu-HU-NoemiNeural / hu-HU-TamasNeural) |
 | Hosting | Railway |
 | Environment | WSL2 + VS Code |
 
@@ -49,13 +49,27 @@ text → D-ID Streaming Avatar (real-time WebRTC)
 
 ## Scenarios
 
-| # | Case | Difficulty | Status |
-|---|---|---|---|
-| 1 | Ambivalent depressed patient in acute suicidal crisis | Beginner | 🔄 In progress |
-| 2 | Young adult after impulsive self-harm | Intermediate | ⏳ Planned |
-| 3 | Paranoid/psychotic patient — risk assessment | Intermediate | ⏳ Planned |
-| 4 | Agitated, distrustful patient — verbal de-escalation | Advanced | ⏳ Planned |
-| 5 | Post-crisis follow-up interview | Intermediate | ⏳ Planned |
+| Case ID | Title | Patient | Difficulty | Status |
+|---|---|---|---|---|
+| RP-CRISIS-001 | Akut szuicid krízis | K. — 42 éves nő | Advanced | ✅ Done |
+| RP-CRISIS-002 | Önkárosítás kapcsolati krízis hátterével | F. — 23 éves nő | Intermediate | ✅ Done |
+| RP-CRISIS-003 | Alkohol és szuicid gondolatok középkorú férfinél | M. — 31 éves férfi | Intermediate | ✅ Done |
+| RP-CRISIS-004 | Szuicid kísérlet utáni értékelés — fiatal férfi | T. — 36 éves férfi | Advanced | ✅ Done |
+| RP-CRISIS-005 | Racionalizált halálvágy terminális betegnél | J. — 48 éves férfi | Advanced | ✅ Done |
+
+---
+
+## Avatar Assignment
+
+Each scenario uses a gender- and age-matched avatar with Hungarian voice:
+
+| Case ID | Avatar | Voice |
+|---|---|---|
+| RP-CRISIS-001 | Amber (35-50, female) | hu-HU-NoemiNeural |
+| RP-CRISIS-002 | Aria (20-35, female) | hu-HU-NoemiNeural |
+| RP-CRISIS-003 | Brandon (20-35, male) | hu-HU-TamasNeural |
+| RP-CRISIS-004 | Ibrahim (35-50, male) | hu-HU-TamasNeural |
+| RP-CRISIS-005 | Joaquin (50+, male) | hu-HU-TamasNeural |
 
 ---
 
@@ -64,24 +78,25 @@ text → D-ID Streaming Avatar (real-time WebRTC)
 | Component | Status |
 |---|---|
 | Project structure, Node.js backend | ✅ Done |
-| System prompt — RP-CRISIS-001 (K., 32y female) | ✅ Done |
 | Claude API integration, /chat endpoint | ✅ Done |
 | Psychopathological state machine (8 variables) | ✅ Done |
 | Communication style evaluator (4 categories) | ✅ Done |
-| Hidden information reveal logic (3 triggers) | ✅ Done |
+| Hidden information reveal logic (3 triggers per scenario) | ✅ Done |
 | Split-screen frontend (chat + avatar panel) | ✅ Done |
 | D-ID Streaming Avatar integration (WebRTC) | ✅ Done |
-| Hungarian voice (hu-HU-NoemiNeural) | ✅ Done |
+| Hungarian voice (NoemiNeural / TamasNeural) | ✅ Done |
 | Patient greets on load (SYSTEM_INIT) | ✅ Done |
 | Nonverbal cue filtering (strip asterisks before TTS) | ✅ Done |
 | Password-protected access (Railway middleware) | ✅ Done |
 | Loading state indicators (Hallgatom / Feldolgozás / A beteg válaszol) | ✅ Done |
 | Microphone push-to-talk (Web Speech API, hu-HU) | ✅ Done |
+| Pause / restart controls | ✅ Done |
+| Scenario selector (5 cases, gender/age-matched avatars) | ✅ Done |
+| Feedback module (layered: summary, checklist, patient perspective, detailed) | ✅ Done |
+| Scenario switcher button with confirmation dialog | ✅ Done |
 | Railway deployment | ✅ Live |
-| Clinical validation by Treuer — case 1 | ⏳ Planned |
+| Clinical validation by Treuer | ⏳ Planned |
 | PTE demo | ⏳ June 2026 |
-| Feedback module | ⏳ Autumn 2026 |
-| Multi-scenario case bank | ⏳ Autumn 2026 |
 | Conference presentation | ⏳ January 2027 |
 
 ---
@@ -100,18 +115,6 @@ The patient's internal state is described by 8 variables, updated after each exc
 | suicidal_accessibility | How openly the patient discusses suicidal thoughts |
 | irritability | Readiness for confrontation |
 | crisis_intensity | Overall level of acute danger |
-
----
-
-## Hidden Information
-
-Three pieces of information the patient only reveals when the right question is asked:
-
-| ID | Content | Trigger |
-|---|---|---|
-| hi_001 | Collected medication at home, checked quantities | Learner asks about plan, preparation, or access to means |
-| hi_002 | Has not told her sister how bad things are | Learner asks about support system or people to involve |
-| hi_003 | Afraid of being seen as crazy, ashamed of suicidal thoughts | Learner asks in a normalizing, non-stigmatizing way |
 
 ---
 
